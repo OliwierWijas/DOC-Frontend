@@ -1,18 +1,11 @@
-import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import Department from "../model/Department.js"
 import "../index.css"
+import { useDepartments } from "../hooks/useDepartments.js";
 
 export default function Departments() {
-    const [departmentList, setDepartmentList] = useState(null)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        fetch(`http://localhost:8080/departments`)
-        .then(response => response.json())
-        .then(setDepartmentList)
-        .catch((error) => console.log("Error fetching departments: ", error))
-    }, [])
+    const departmentsList = useDepartments();
     
     const handleDepartmentClick = (departmentName) => {
         navigate(`/departments/${departmentName}`)
@@ -20,9 +13,9 @@ export default function Departments() {
 
     return <>
     <h1 className="about">Departments</h1>
-    <div className="departmentList">
-        {departmentList != null &&
-        departmentList.map((data) => {
+    <div className="departmentsList">
+        {departmentsList && departmentsList[0] &&
+        departmentsList.map((data) => {
             const department = new Department(data)
             return (
                 <div className="department-container" onClick={() => handleDepartmentClick(department.name)}>

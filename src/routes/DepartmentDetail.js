@@ -1,38 +1,24 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Department from "../model/Department.js"
 import Story from "../model/Story.js"
+import { useStories } from "../hooks/useStories.js";
 
 export default function DepartmentDetail() {
   const { departmentName } = useParams()
-  const [department, setDepartment] = useState(null)
-  const [storiesList, setStoriesList] = useState(null)
-
-  useEffect(() => {
-    fetchData(departmentName)
-      .then(([departmentData, storiesData]) => {
-        const newDepartment = new Department(departmentData)
-        setDepartment(newDepartment)
-        setStoriesList(storiesData)
-      })
-      .catch((error) => {
-        console.log("Error fetching the department's data: ", error)
-      })
-  }, [departmentName])
+  const storiesList = useStories(departmentName)
 
   return (
     <div>
-      {department ? (
+      {departmentName ? (
         <div>
           <div className="department-name">
-            {department.name}
+            {departmentName}
           </div>
           <div className="storiesList">
-            {storiesList != null &&
+            {storiesList && storiesList[0] &&
               storiesList.map((data) => {
                 const story = new Story(data)
                 return (
-                  <div className="story-container">
+                  <div className="story-container" key={story.id}>
                     <div>{story.id}</div>
                     <div>{story.title}</div>
                     <div>{story.description}</div>
@@ -46,16 +32,4 @@ export default function DepartmentDetail() {
       )}
     </div>
   );
-}
-
-async function fetchData(departmentName) {
-  const promises = []
-
-  promises.push(fetch(`http://localhost:8080/departments/${departmentName}`))
-  promises.push(fetch(`http://localhost:8080/stories?departmentName=${departmentName}`))
-
-  const responses = await Promise.all(promises);
-  const data = await Promise.all(responses.map((response) => response.json()))
-
-  return data;
 }
