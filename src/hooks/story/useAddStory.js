@@ -1,5 +1,5 @@
 export function useAddStory() {
-    const addStory = async (newStory) => {
+    const addStory = async (newStory, setRefreshIndex) => {
         if (!newStory || !newStory.title || !newStory.description || !newStory.department) {
             alert("All fiels have to be filled")
             return
@@ -12,6 +12,7 @@ export function useAddStory() {
             method: "POST"
         })
         if (response) {
+            setRefreshIndex(prev => prev + 1)
             alert(await response.text())
         }
     }

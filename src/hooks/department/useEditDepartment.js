@@ -1,5 +1,8 @@
 export function useEditDepartment() {
-    const editDepartment = async (departmentName, editedDepartment) => {
+    const editDepartment = async (departmentName, editedDepartment, setRefreshIndex) => {
+        console.log(departmentName)
+        console.log(editedDepartment)
+        console.log(editedDepartment.name)
         if (!departmentName || !editedDepartment.name) {
             alert("All fields have to be filled")
             return
@@ -13,6 +16,7 @@ export function useEditDepartment() {
             method: "PUT"
         })
         if (response) {
+            setRefreshIndex(prev => prev + 1)
             alert(await response.text())
         }
     }

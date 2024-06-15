@@ -3,10 +3,24 @@ import Story from "../model/Story.js"
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useStories } from "../hooks/story/useStories.js"
+import { useAddStory } from "../hooks/story/useAddStory.js"
+import { useState } from "react";
 
 export default function DepartmentDetail() {
   const { departmentName } = useParams()
-  const storiesList = useStories(departmentName)
+  const [refreshIndex, setRefreshIndex] = useState(0)
+  const storiesList = useStories(departmentName, refreshIndex)
+
+  const addStory = useAddStory()
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+
+  const handleStoryAdd = async () => {
+    const department = {
+      name: departmentName
+    }
+    addStory({title, description, department}, setRefreshIndex)
+  }
 
   return (
     <div>
@@ -15,11 +29,11 @@ export default function DepartmentDetail() {
           <div className="department-name">
             {departmentName}
           </div>
-          <div>
-          <label for="title">Create a new story: </label>
-          <input type="text" id="title" name="title" placeholder="Enter title..." required></input>
-          <textarea id="description" name="description" placeholder="Enter description..." rows="4" required></textarea>
-          <button type="submit">Create</button>
+          <div className="form-add">
+            <div>Add a new story: </div>
+            <input type="text" id="title" name="title" placeholder="Enter title..." required onChange={(e) => setTitle(e.target.value)}></input>
+            <textarea id="description" name="description" placeholder="Enter description..." rows="4" required onChange={(e) => setDescription(e.target.value)}></textarea>
+            <button type="submit" onClick={handleStoryAdd}>ADD</button>
           </div>
           <div className="storiesList">
             {storiesList && storiesList[0] &&

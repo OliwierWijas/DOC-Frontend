@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export function useStories(departmentName) {
+export function useStories(departmentName, refreshIndex) {
     const [stories, setStories] = useState([])
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export function useStories(departmentName) {
         return () => {
             contoller.abort()
         }
-    }, [departmentName])
+    }, [departmentName, refreshIndex])
 
     return stories
 }

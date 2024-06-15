@@ -3,47 +3,91 @@ import Department from "../model/Department.js"
 import "../index.css"
 import { useDepartments } from "../hooks/department/useDepartments.js";
 import { useAddDepartment } from "../hooks/department/useAddDepartment.js";
+import { useDeleteDepartment } from "../hooks/department/useDeleteDepartment.js"
+import { useEditDepartment } from "../hooks/department/useEditDepartment.js"
 import { useState } from "react";
+import { MdDeleteOutline } from "react-icons/md";
 
 export default function Departments() {
     const navigate = useNavigate()
     const [refreshIndex, setRefreshIndex] = useState(0)
     const departmentsList = useDepartments(refreshIndex)
 
-    const [newDepartment, setNewDepartment] = useState('')
+    const [newDepartmentName, setNewDepartmentName] = useState('')
     const addDepartment = useAddDepartment()
+
+    const [selectedDepartment, setSelectedDepartment] = useState(undefined)
+    const [editDepartmentName, setEditDepartmentName] = useState('')
+    const editDepartment = useEditDepartment()
+
+    console.log(selectedDepartment)
+
+    const deleteDepartment = useDeleteDepartment()
 
     const handleDepartmentClick = (departmentName) => {
         navigate(`/departments/${departmentName}`)
     }
 
     const handleDepartmentAdd = async () => {
-        addDepartment({name: newDepartment}, setRefreshIndex)
-        setNewDepartment('')
+        addDepartment({ name: newDepartmentName }, setRefreshIndex)
+    }
+
+    const handleDepartmentEdit = async () => {
+        editDepartment(selectedDepartment, { name: editDepartmentName }, setRefreshIndex)
+    }
+
+    const handleDepartmentDelete = async (name) => {
+        deleteDepartment(name, setRefreshIndex)
     }
 
     return <>
-        <div className="about text-4xl">Departments</div>
-        <div className="pt-1 w-4/5 md:w-2/3 bg-black bg-opacity-70"></div>
-        <div className="form my-2 w-4/5 md:w-2/3 flex justify-evenly">
+        <div className="text-4xl my-2">Departments</div>
+
+        <div className="line pt-1 w-4/5 md:w-2/3 bg-black bg-opacity-70"></div>
+        <div className="add-form my-2 w-4/5 md:w-2/3 flex justify-evenly">
             <input
                 type="text"
                 placeholder="Enter department name"
-                className="px-4 py-2 border rounded-md mr-2 w-2/3"
-                onChange={(e) => setNewDepartment(e.target.value)}
+                className="px-4 py-2 border rounded-md mr-2 w-3/4"
+                onChange={(e) => setNewDepartmentName(e.target.value)}
             />
             <button className="px-4 py-2 bg-black bg-opacity-70 text-white text-lg rounded-md w-1/4" onClick={handleDepartmentAdd}>
                 ADD
             </button>
         </div>
-        <div className="pt-1 w-4/5 md:w-2/3 bg-black bg-opacity-70"></div>
-        <div className="flex flex-row flex-wrap w-4/5 md:w-2/3 justify-evenly mt-5">
+        <div className="line pt-1 w-4/5 md:w-2/3 bg-black bg-opacity-70"></div>
+
+        <div className="edit-form my-2 w-4/5 md:w-2/3 flex justify-evenly">
+            <select
+                className="px-4 py-2 border rounded-md mr-2 w-1/4"
+                onChange={(e) => setSelectedDepartment(e.target.value)}
+            >
+                {departmentsList.map((data) => (
+                    <option key={data.name} value={data.name}>
+                        {data.name}
+                    </option>
+                ))}
+            </select>
+            <input
+                type="text"
+                placeholder="Enter new department name"
+                className="px-4 py-2 border rounded-md mr-2 w-1/2"
+                onChange={(e) => setEditDepartmentName(e.target.value)}
+            />
+            <button className="px-4 py-2 bg-black bg-opacity-70 text-white text-lg rounded-md w-1/4" onClick={handleDepartmentEdit}>
+                EDIT
+            </button>
+        </div>
+        <div className="line pt-1 w-4/5 md:w-2/3 bg-black bg-opacity-70"></div>
+
+        <div className="departments-box flex flex-row flex-wrap w-4/5 md:w-2/3 justify-evenly mt-5">
             {departmentsList && departmentsList[0] &&
                 departmentsList.map((data) => {
                     const department = new Department(data)
                     return (
-                        <div className="flex items-center justify-center my-2 w-2/5 xl:w-1/4 h-48 bg-black bg-opacity-10 hover:bg-opacity-20 transition duration-300 rounded-md shadow-sm text-2xl" onClick={() => handleDepartmentClick(department.name)} key={department.name}>
-                            {department.name}
+                        <div className="flex items-center justify-center m-2 w-full xl:w-2/5 h-48 bg-black bg-opacity-10 hover:bg-opacity-20 transition duration-300 rounded-md shadow-sm text-2xl" key={department.name}>
+                            <div className="cursor-pointer" onClick={() => handleDepartmentClick(department.name)}>{department.name}</div>
+                            <div className="mx-1 cursor-pointer" onClick={() => handleDepartmentDelete(department.name)}><MdDeleteOutline /></div>
                         </div>
                     )
                 })}
