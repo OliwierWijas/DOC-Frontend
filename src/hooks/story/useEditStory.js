@@ -5,7 +5,13 @@ export function useEditStory() {
             return
         }
 
-        const response = await fetch(`http://localhost:8080/stories/${id}`, { body: JSON.stringify(editedStory), method: "PUT" })
+        const response = await fetch(`http://localhost:8080/stories/${id}`, {
+            body: JSON.stringify(editedStory),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "PUT"
+        })
         if (response) {
             alert(await response.text())
         }

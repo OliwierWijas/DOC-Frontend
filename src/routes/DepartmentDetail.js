@@ -1,10 +1,8 @@
 import { useParams } from "react-router-dom";
 import Story from "../model/Story.js"
-import { useStories } from "../hooks/useStories.js";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
-
-
+import { useStories } from "../hooks/story/useStories.js"
 
 export default function DepartmentDetail() {
   const { departmentName } = useParams()

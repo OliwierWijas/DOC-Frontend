@@ -5,7 +5,13 @@ export function useEditDepartment() {
             return
         }
 
-        const response = await fetch(`http://localhost:8080/departments/${departmentName}`, { body: JSON.stringify(editedDepartment), method: "PUT" })
+        const response = await fetch(`http://localhost:8080/departments/${departmentName}`, {
+            body: JSON.stringify(editedDepartment),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "PUT"
+        })
         if (response) {
             alert(await response.text())
         }

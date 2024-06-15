@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export function useDepartments() {
+export function useDepartments(refreshIndex) {
     const [departments, setDepartments] = useState([])
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export function useDepartments() {
         return () => {
             contoller.abort()
         }
-    }, [])
+    }, [refreshIndex])
 
     return departments
 }

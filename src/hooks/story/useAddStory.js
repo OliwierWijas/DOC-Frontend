@@ -4,11 +4,17 @@ export function useAddStory() {
             alert("All fiels have to be filled")
             return
         }
-        const response = await fetch(`http://localhost:8080/stories`, { body: JSON.stringify(newStory), method: "POST" })
+        const response = await fetch(`http://localhost:8080/stories`, {
+            body: JSON.stringify(newStory),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "POST"
+        })
         if (response) {
             alert(await response.text())
         }
     }
-    
+
     return addStory
 }
