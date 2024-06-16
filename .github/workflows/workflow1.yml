@@ -31,17 +31,17 @@ jobs:
       - name: Deploy to minikube
         run: |
           kompose convert
-          kubectl apply -f frontend-deployment.yaml 2>&1 >/dev/null | tee /dev/stderr
-          kubectl apply -f frontend-service.yaml 2>&1 >/dev/null | tee /dev/stderr
+          kubectl apply -f frontend-doc-deployment.yaml 2>&1 >/dev/null | tee /dev/stderr
+          kubectl apply -f frontend-doc-service.yaml 2>&1 >/dev/null | tee /dev/stderr
           kubectl get all
           sleep 50
           echo "Deployment completed successfully"
       - name: Test frontend service URLs
         run: |
-          echo "SERVICE_URL=$(minikube service frontend --url)"
-          kubectl port-forward service/frontend 3030:3030 &> /dev/null &
+          echo "SERVICE_URL=$(minikube service frontend-doc --url)"
+          kubectl port-forward service/frontend-doc 3030:3030 &> /dev/null &
           sleep 5
-          kubectl port-forward service/frontend 3030:3030 &> /dev/null &
+          kubectl port-forward service/frontend-doc 3030:3030 &> /dev/null &
       - run: |
           curl -i http://localhost:3030/
       - name: Cleanup
