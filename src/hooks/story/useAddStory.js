@@ -13,7 +13,11 @@ export function useAddStory() {
         })
         if (response) {
             setRefreshIndex(prev => prev + 1)
-            alert(await response.text())
+            if (response.ok) {
+                alert("Story added successfully")
+            } else {
+                alert("Error adding a story")
+            }
         }
     }
 

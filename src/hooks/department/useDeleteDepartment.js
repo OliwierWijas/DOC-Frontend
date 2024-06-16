@@ -7,7 +7,11 @@ export function useDeleteDepartment() {
         const response = await fetch(`http://localhost:8080/departments/${departmentId}`, { method: "DELETE" })
         if (response) {
             setRefreshIndex(prev => prev + 1)
-            alert(await response.text())
+            if (response.ok) {
+                alert("Department deleted successfully")
+            } else {
+                alert("Error deleting a department")
+            }
         }
     }
     return deleteDepartment

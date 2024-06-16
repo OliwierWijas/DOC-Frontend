@@ -17,8 +17,11 @@ export function useEditDepartment() {
         })
         if (response) {
             setRefreshIndex(prev => prev + 1)
-            alert(await response.text())
-        }
+            if (response.ok) {
+                alert("Department edited successfully")
+            } else {
+                alert("Error editing a department")
+            }        }
     }
     return editDepartment
 }
