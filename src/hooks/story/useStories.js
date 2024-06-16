@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 
-export function useStories(departmentName, refreshIndex) {
+export function useStories(departmentId, refreshIndex) {
     const [stories, setStories] = useState([])
 
     useEffect(() => {
         const contoller = new AbortController()
         const signal = contoller.signal
 
-        fetch(`http://localhost:8080/stories?departmentName=${departmentName}`, {signal, method: "GET"})
+        fetch(`http://localhost:8080/stories?departmentId=${departmentId}`, {signal, method: "GET"})
         .then(response => response.json())
         .then(stories => setStories(stories))
         .catch(error => {
@@ -18,7 +18,7 @@ export function useStories(departmentName, refreshIndex) {
         return () => {
             contoller.abort()
         }
-    }, [departmentName, refreshIndex])
+    }, [departmentId, refreshIndex])
 
     return stories
 }

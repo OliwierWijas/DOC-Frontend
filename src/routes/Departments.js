@@ -16,16 +16,15 @@ export default function Departments() {
     const [newDepartmentName, setNewDepartmentName] = useState('')
     const addDepartment = useAddDepartment()
 
-    const [selectedDepartment, setSelectedDepartment] = useState(undefined)
+    const [selectedDepartment, setSelectedDepartment] = useState(0)
+    console.log(selectedDepartment)
     const [editDepartmentName, setEditDepartmentName] = useState('')
     const editDepartment = useEditDepartment()
 
-    console.log(selectedDepartment)
-
     const deleteDepartment = useDeleteDepartment()
 
-    const handleDepartmentClick = (departmentName) => {
-        navigate(`/departments/${departmentName}`)
+    const handleDepartmentClick = (departmentId) => {
+        navigate(`/departments/${departmentId}`)
     }
 
     const handleDepartmentAdd = async () => {
@@ -36,8 +35,8 @@ export default function Departments() {
         editDepartment(selectedDepartment, { name: editDepartmentName }, setRefreshIndex)
     }
 
-    const handleDepartmentDelete = async (name) => {
-        deleteDepartment(name, setRefreshIndex)
+    const handleDepartmentDelete = async (departmentId) => {
+        deleteDepartment(departmentId, setRefreshIndex)
     }
 
     return <>
@@ -63,7 +62,7 @@ export default function Departments() {
                 onChange={(e) => setSelectedDepartment(e.target.value)}
             >
                 {departmentsList.map((data) => (
-                    <option key={data.name} value={data.name}>
+                    <option key={data.id} value={data.id}>
                         {data.name}
                     </option>
                 ))}
@@ -85,9 +84,9 @@ export default function Departments() {
                 departmentsList.map((data) => {
                     const department = new Department(data)
                     return (
-                        <div className="flex items-center justify-center m-2 w-full xl:w-2/5 h-48 bg-black bg-opacity-10 hover:bg-opacity-20 transition duration-300 rounded-md shadow-sm text-2xl" key={department.name}>
-                            <div className="cursor-pointer" onClick={() => handleDepartmentClick(department.name)}>{department.name}</div>
-                            <div className="mx-1 cursor-pointer" onClick={() => handleDepartmentDelete(department.name)}><MdDeleteOutline /></div>
+                        <div className="flex items-center justify-center m-2 w-full xl:w-2/5 h-48 bg-black bg-opacity-10 hover:bg-opacity-20 transition duration-300 rounded-md shadow-sm text-2xl" key={department.id}>
+                            <div className="cursor-pointer" onClick={() => handleDepartmentClick(department.id)}>{department.name}</div>
+                            <div className="mx-1 cursor-pointer" onClick={() => handleDepartmentDelete(department.id)}><MdDeleteOutline /></div>
                         </div>
                     )
                 })}

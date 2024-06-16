@@ -21,7 +21,7 @@ const router = createHashRouter([
         element: <About />
       },
       {
-        path: "departments/:departmentName",
+        path: "departments/:departmentId",
         element: <DepartmentDetail />
       }
     ],

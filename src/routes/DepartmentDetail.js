@@ -7,9 +7,10 @@ import { useAddStory } from "../hooks/story/useAddStory.js"
 import { useState } from "react";
 
 export default function DepartmentDetail() {
-  const { departmentName } = useParams()
+  const { departmentId } = useParams()
   const [refreshIndex, setRefreshIndex] = useState(0)
-  const storiesList = useStories(departmentName, refreshIndex)
+  console.log(departmentId)
+  const storiesList = useStories(departmentId, refreshIndex)
 
   const addStory = useAddStory()
   const [title, setTitle] = useState('')
@@ -17,18 +18,15 @@ export default function DepartmentDetail() {
 
   const handleStoryAdd = async () => {
     const department = {
-      name: departmentName
+      id: departmentId
     }
     addStory({title, description, department}, setRefreshIndex)
   }
 
   return (
     <div>
-      {departmentName ? (
+      {departmentId ? (
         <div>
-          <div className="department-name">
-            {departmentName}
-          </div>
           <div className="form-add">
             <div>Add a new story: </div>
             <input type="text" id="title" name="title" placeholder="Enter title..." required onChange={(e) => setTitle(e.target.value)}></input>
