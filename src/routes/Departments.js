@@ -86,7 +86,7 @@ export default function Departments() {
                     return (
                         <div className="flex items-center justify-center m-2 w-full xl:w-2/5 h-48 bg-black bg-opacity-10 hover:bg-opacity-20 transition duration-300 rounded-md shadow-sm text-2xl" key={department.id}>
                             <div className="cursor-pointer" onClick={() => handleDepartmentClick(department.id)}>{department.name}</div>
-                            <div className="mx-1 cursor-pointer" onClick={() => handleDepartmentDelete(department.id)}><MdDeleteOutline /></div>
+                            <div className="mx-1 cursor-pointer" onClick={() => handleDepartmentDelete(department.id)} data-testid="delete-button"><MdDeleteOutline /></div>
                         </div>
                     )
                 })}
