@@ -39,11 +39,11 @@ jobs:
       - name: Test frontend service URLs
         run: |
           echo "SERVICE_URL=$(minikube service frontend-doc --url)"
-          kubectl port-forward service/frontend-doc 3030:3030 &> /dev/null &
+          kubectl port-forward service/frontend-doc 3000:3000 &> /dev/null &
           sleep 5
-          kubectl port-forward service/frontend-doc 3030:3030 &> /dev/null &
+          kubectl port-forward service/frontend-doc 3000:3000 &> /dev/null &
       - run: |
-          curl -i http://localhost:3030/
+          curl -i http://localhost:3000/
       - name: Cleanup
         run: |
           eval $(minikube docker-env -u)

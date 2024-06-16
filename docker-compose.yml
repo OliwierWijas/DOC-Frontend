@@ -6,7 +6,7 @@ services:
     container_name: 'assignment-frontend-container'
     image: 'frontend:v2'
     ports:
-      - 3030:3030
+      - 3000:3000
 
 volumes:
   db:
