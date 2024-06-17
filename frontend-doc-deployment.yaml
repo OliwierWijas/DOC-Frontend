@@ -25,7 +25,7 @@ spec:
         - image: frontend:v2
           name: assignment-frontend-container
           ports:
-            - containerPort: 3030
-              hostPort: 3030
+            - containerPort: 3000
+              hostPort: 3000
               protocol: TCP
       restartPolicy: Always
