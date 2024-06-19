@@ -25,6 +25,7 @@ jobs:
           echo "Images build successfully"
       - name: Save the image
         run: |
+          sleep 20
           docker image save -o doc-frontend.tar frontend:v2
       - name: Install Kompose
         run: |
