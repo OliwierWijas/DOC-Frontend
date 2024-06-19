@@ -23,6 +23,9 @@ jobs:
           echo -n "Verifying images: "
           docker images
           echo "Images build successfully"
+      - name: Save the image
+        run: |
+          docker image save -o doc-frontend.tar frontend:v2
       - name: Install Kompose
         run: |
           curl -L https://github.com/kubernetes/kompose/releases/download/v1.24.0/kompose-linux-amd64 -o kompose
@@ -31,6 +34,7 @@ jobs:
       - name: Deploy to minikube
         run: |
           kompose convert
+          minikube image load doc-frontend.tar
           kubectl apply -f frontend-doc-deployment.yaml 2>&1 >/dev/null | tee /dev/stderr
           kubectl apply -f frontend-doc-service.yaml 2>&1 >/dev/null | tee /dev/stderr
           kubectl get all
